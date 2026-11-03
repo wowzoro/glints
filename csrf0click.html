@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+window.addEventListener("load", () => {
+    fetch("http://localhost:1338/beacon?t=" + Date.now())
+        .catch(console.error);
+
+    window.location.href = "https://glints.com/api/me/resume/download";
+});
+</script>
+</body>
+</html>

